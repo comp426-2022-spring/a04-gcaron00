@@ -61,7 +61,7 @@ app.use( (req, res, next) => {
     const info = stmt.run(String(logdata.remoteaddr), String(logdata.remoteuser), String(logdata.time), 
         String(logdata.method), String(logdata.url), String(logdata.protocol), String(logdata.httpversion), String(logdata.secure), 
         String(logdata.status), String(logdata.referer), String(logdata.useragent))
-    res.status(200).json(info)
+    next()
 })
 
 if (debug) {
