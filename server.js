@@ -13,13 +13,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 const db = new Database('log.db')
 
-const log = args.log
+const log = args.log || "true"
 const help = args.help
 const debug = args.debug
 const port = args.port || 5555
 
 app.use(morgan("tiny"));
-if(log != "false"){
+if(log == "true"){
     const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: WRITESTREAM }))
     console.log("True")
