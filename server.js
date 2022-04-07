@@ -6,12 +6,11 @@ const express = require("express")
 const morgan = require('morgan')
 const fs = require('fs')
 const args = require("minimist")(process.argv.slice(2))  //require("minimist")(
-const Database = require('better-sqlite3')
 
 const app = express()
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-const db = new Database('log.db')
+const db = require('./database.js')
 
 const log = args.log || "true"
 const help = args.help
@@ -44,28 +43,6 @@ if(log === "true"){
     console.log("Access logging")
 }
 
-app.use( (req, res, next) => {
-    let logdata = {
-        remoteaddr: req.ip,
-        remoteuser: req.user,
-        time: Date.now(),
-        method: req.method,
-        url: req.url,
-        protocol: req.protocol,
-        httpversion: req.httpVersion,
-        secure: req.secure,
-        status: res.statusCode,
-        referer: req.headers['referer'],
-        useragent: req.headers['user-agent']
-    }
-    const stmt = database.prepare(`INSERT INTO accesslog (remoteaddr, 
-        remoteuser, time, method, url, protocol, httpversion, secure, 
-        status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
-    const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, 
-        logdata.method, logdata.url, logdata.protocol, logdata.httpversion, logdata.secure, 
-        logdata.status, logdata.referer, logdata.useragent)
-    res.status(200).json(info)
-})
 
 if (debug) {
     app.get("/app/log/access", (req, res) => {	
