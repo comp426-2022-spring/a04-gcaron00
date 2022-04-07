@@ -1,20 +1,19 @@
 
 const express = require("express")
+const app = express()
+app.use(express.json())
 const morgan = require('morgan')
 const fs = require('fs')
-const args = require("minimist")(process.argv.slice(2))  
 
-const app = express()
-//app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
 const db = require('./database.js')
+const args = require("minimist")(process.argv.slice(2))  
 
 const log = args.log || "true"
 const help = args.help
 const debug = args.debug
 const port = args.port || 5555
 
-if (help) {
+if (help === true) {
     console.log(`server.js [options]
 
     --port	Set the port number for the server to listen on. Must be an integer
@@ -33,11 +32,9 @@ if (help) {
     
 }
 
-app.use(morgan("tiny"));
 if(log === "true"){
-    const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: WRITESTREAM }))
-    console.log("Access logging")
+    const accesslog  = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: accesslog }))
 }
 
 app.use( (req, res, next) => {
