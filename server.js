@@ -19,9 +19,10 @@ const debug = args.debug
 const port = args.port || 5555
 
 app.use(morgan("tiny"));
-if(log == true){
+if(log != "false"){
     const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: WRITESTREAM }))
+    console.log("True")
 }
 
 if (help) {
