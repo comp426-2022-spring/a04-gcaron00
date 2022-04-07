@@ -18,9 +18,9 @@ const help = args.help
 const debug = args.debug
 const port = args.port || 5555
 
-if(log == true){
-    const writestream  = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: writestream  }))
+if(log == "true"){
+    const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: WRITESTREAM }))
 }
 
 if (help) {
