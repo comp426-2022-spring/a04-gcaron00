@@ -33,9 +33,13 @@ if (help === true) {
 }
 
 if(log === "true"){
-    const accesslog  = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: accesslog }))
+    const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: WRITESTREAM }))
 }
+
+const server = app.listen(port, () => {
+    console.log('App is running on port %PORT%'.replace('%PORT%', port))
+})
 
 app.use( (req, res, next) => {
     let logdata = {
@@ -51,7 +55,7 @@ app.use( (req, res, next) => {
         referer: req.headers['referer'],
         useragent: req.headers['user-agent']
     }
-    const stmt = database.prepare(`INSERT INTO accesslog (remoteaddr, 
+    const stmt = db.prepare(`INSERT INTO accesslog (remoteaddr, 
         remoteuser, time, method, url, protocol, httpversion, secure, 
         status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, 
@@ -73,11 +77,6 @@ if (debug) {
         throw new Error('Error test successful.');
     });
 }
-
-
-const server = app.listen(port, () => {
-    console.log('App is running on port %PORT%'.replace('%PORT%', port))
-})
 
 app.get('/app/flip', (req, res) => {
     res.status(200).json({"flip": coinFlip()})
