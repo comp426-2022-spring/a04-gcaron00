@@ -18,13 +18,6 @@ const help = args.help
 const debug = args.debug
 const port = args.port || 5555
 
-app.use(morgan("tiny"));
-if(log == "true"){
-    const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: WRITESTREAM }))
-    console.log("True")
-}
-
 if (help) {
     console.log(`server.js [options]
 
@@ -66,6 +59,13 @@ app.use( (req, res, next) => {
         logdata.status, logdata.referer, logdata.useragent)
     res.status(200).json(info)
 })
+
+app.use(morgan("tiny"));
+if(log == "true"){
+    const WRITESTREAM  = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: WRITESTREAM }))
+    console.log("True")
+}
 
 if (debug) {
     app.get("/app/log/access", (req, res) => {	
