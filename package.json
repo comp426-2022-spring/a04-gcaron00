@@ -1,0 +1,29 @@
+{
+  "name": "a04-gcaron00",
+  "version": "0.1.0",
+  "description": "Building an API to flip some coins",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js --port=5555",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comp426-2022-spring/a03-gcaron00.git"
+  },
+  "author": "@gcaron00",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/comp426-2022-spring/a03-gcaron00/issues"
+  },
+  "homepage": "https://github.com/comp426-2022-spring/a03-gcaron00#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.0",
+    "express": "^4.17.3",
+    "fs": "^0.0.1-security",
+    "minimist": "^1.2.6",
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.0.2",
+    "yargs": "^17.3.1"
+  }
+}
